@@ -1,0 +1,486 @@
+Jay's Image Gallery (JIG) 1.0 - Released May 5, 2021
+
+Copyright (C) 2021 Jason Carson - jaysimagegallery@gmail.com
+
+Licensed under the AGPLv3 or (at your option) any later version.
+
+Thank you for downloading JIG. An easy to use customizable image gallery for 
+your website. Features include support for JPG, SVG, PNG, GIF & BMP image 
+formats and MP4, OGG & WEBM video formats, sub-albums, thumbnails, private 
+albums/photos, multi-language support, Google reCAPTCHA, Google maps, members,
+comments, JPG EXIF data, watermarks and theming system. Requires LAMP/LEMP 
+and GD.
+
+NOTES
+
+A few years ago I created JIG to organize my photos and share them with family 
+members on my home LAN. Back then it was a basic photo gallery without any
+features. It worked out great for that purpose so I decided to add some 
+features during the COVID-19 pandemic and then share it with the community.
+
+I don't have a formal education in programming. Creating JIG has been a small 
+hobby project, something to do during the pandemic, learning as I go, so if 
+you're an experienced software developer wondering why I did some things the 
+way I did the answer is because it worked. With regard to code quality it could
+stand to be improved and optimized for maximum performance but it works good 
+enough for my purposes. As for security I've done some reading on SQL injection
+attacks and login systems and have tried to implement the things I read about 
+but since I've never created a login system before I make no security 
+guarantees. If you notice any security holes and you know how to fix them you 
+can send me a pull request on GitHub and I may use it.
+
+JIG was originally designed to be an image gallery, however I added support for
+video uploads as a last minute modification. JIG still says "image" even when 
+video is being uploaded or displayed, I'll have to fix that in the future.
+
+I also want to thank all the websites out there that host code discussion forums
+or post guides, FAQs and tips in order to help out those of us who don't know
+a lot about programming.
+
+DONATIONS
+
+If you like JIG and want to give back you can do so by donating Bitcoin or 
+Ethereum. Any and all donations are appreciated...
+
+	Bitcoin: 3EbzChHyXRCb3FpQYYXMVUtk76FJxsHiLk
+
+	Ethereum: 0x4B3BC401CcB13A095c439DBBd8fe2D505B3D73FE
+
+REQUIREMENTS
+
+LAMP/LEMP Stack (Linux Apache/NGINX MySQL/MariaDB PHP) and GD
+
+I have tested JIG on Ubuntu 18.04/20.04 LTS Server Edition and all instructions
+apply to Ubuntu. If you are using a different distribution please note that JIG 
+has the following minimum requirements...
+
+   - PHP 7.2 (with gd, fileinfo, mbstring and exec support enabled)
+   - libgd 2.2.5
+
+NOTE: If you are running another distribution and JIG doesn't work or you are 
+running into problems it may be that certain other required PHP extensions need
+to be installed. Remember that the instructions provided here cover the default 
+Ubuntu Server 18.04/20.04 LTS installation.
+
+INSTALLATION
+
+I'm assuming you already have a LAMP/LEMP installation setup and ready to go...
+
+1) Setup the database (MySQL/MariaDB). Below are instructions for setting up the
+   database using the command line interface or with phpMyAdmin
+  
+  a) Log into MySQL/MariaDB as root then create a database user and the
+       database with the following commands...
+
+       i) Log into the database: sudo mysql -u root -p  
+       ii) CREATE USER 'username'@'localhost' IDENTIFIED BY 'password'; 
+       iiI) CREATE DATABASE jig;
+       vi) GRANT ALL PRIVILEGES ON jig.* TO 'username'@'localhost';
+       vii) FLUSH PRIVILEGES;
+       viii) QUIT
+    
+  b) Next we import the database. Enter the jig directory and use the 
+     following command...
+
+       i) sudo mysql -u username -p jig < default-jig.sql
+
+  c) If you are using phpMyAdmin log into phpMyAdmin and create a database
+     called jig then import default-jig.sql
+
+NOTE: Image files are not stored in the database.
+
+2) Edit config.php and enter the required information...
+  
+  a) Server name. Default: localhost
+  b) Enter your database username
+  c) Enter your database password
+  d) Database name. Default: jig
+
+3) Either upload the jig folder to your server or upload its contents if 
+   you want to run it in your web root. 
+
+NOTE: You can skip steps 4 and 5 if you're using shared hosting although if 
+you run into problems you may have to contact your hosting provider and have
+them install the required software. If you are using shared hosting you may 
+run into some issues since every provider has a slightly different 
+configuration. At a minimum you need PHP 7.2 with the PHP "fileinfo", "gd"
+and "mbstring" extensions enabled. When you log into the JIG Administration
+section look at the phpinfo section (the purple section) and it will tell 
+you all about your current PHP configuration. Scroll down and make sure 
+"fileinfo" and "mbstring" are listed, also check that the GD section shows
+"GD Headers". JIG requires that you are able to run PHP "exec".
+
+4) JIG requires libgd, php-gd and php-mbstring. Install them with the the 
+   following commands...
+
+  sudo apt install libgd3 
+  sudo apt install php-gd
+  sudo apt install php-mbstring
+
+5) FOLDER PERMISSIONS
+
+   Make the following directories writable by the web server, use these 
+   commands...
+
+  sudo chown www-data images/gallery/
+  sudo chown www-data images/thumbnails/
+  sudo chown www-data images/watermark/
+  sudo chown www-data images/originals/
+  sudo chmod 664 images/originals
+
+6) PHP UPLOAD SETTINGS
+
+   Your image upload limits are governed by settings in the php.ini file. If
+   you don't have access to the php.ini file ask your hosting provider to make
+   the changes. Some shared hosting providers will allow you to make these
+   changes yourself (If they are using cPanel for example). The relevant 
+   settings are shown below...
+
+      Apache php.ini file: /etc/php/7.x/apache2/php.ini
+      NGINX php.ini file:  /etc/php/7.x/fpm/php.ini
+
+      Equation: upload_max_filesize x max_file_uploads ≤ post_max_size
+
+        upload_max_filesize = Default: 2M - Maximum allowed size for uploaded
+                                            files. If you attempt to upload a
+                                            image larger than this nothing
+                                            will be uploaded. You'll probably
+                                            want to increase this.
+
+                                            Recommended: 10M
+
+        max_file_uploads = Default: 20 - Maximum number of files that can be
+                                         uploaded via a single request. This is
+                                         the maximum number of images that can 
+                                         be uploaded simultaneously. The default
+                                         value is probably fine.
+
+                                         Recommended: 20
+
+        post_max_size = Default: 20 M - Maximum size of POST data that PHP will
+                                        accept. Ths is the maximum combined file
+                                        size you can upload all at once. You'll
+                                        probably want to increase this.
+
+                                        Recommended : 200M
+
+        memory_limit = Default 128M - Maximum amount of memory a script may
+                                      consume. This has to be higher than 
+                                      post_max_size. You'll probably want to 
+                                      increase this.
+
+                                      Recommended: 256M
+
+   If you are using NGINX modify /etc/nginx/nginx.conf and add the following
+   to the http section making sure it is the same or greater than post_max_size
+   from above. If you attempt to upload anything larger than this you will get
+   an error.
+
+    client_max_body_size 200M;
+  
+   Finally restart your web server: 
+
+        sudo service apache2 restart
+
+      or 
+
+        sudo service php7.x-fpm restart
+        sudo service nginx restart 
+
+7) Open your browser and navigate to the setup script...
+
+        Example: https://www.yoursite.com/jig/setup.php
+
+   ...and setup your Administrator account. After you do that navigate to your
+   JIG installation, select the "Account" tab and log in, then click the 
+   Administration link on the top right of the page to setup your image 
+   gallery. 
+
+ORIGINALS FOLDER
+
+When you upload a JPEG image with EXIF data, such as a photo from your camera,
+GD will remove all of the EXIF data and color profile information from the 
+photo, JIG will extract some of that EXIF data, store it in the database and 
+then display it underneath the photo, the file size will also be reduced so the
+photo is more web friendly and loads quicker, these altered image files are 
+stored in the "gallery" directory. The "originals" directory is a backup of all
+your image files, it stores a copy of all your images unaltered by GD with the
+EXIF data and color profile information intact. To prevent users from accessing
+the original image files (which contain EXIF data you may not want people to 
+have access too), the "originals" directory has the executable bit disabled 
+which will prevent anyone (visitors to your website, and you) from accessing 
+your original files. 
+
+HOW TO ACCESS ORIGNAL FILES
+
+1) If you are using a DEDICATED or VPS server then to be able to access the
+   folders and image files within the "originals" directory you must make the
+   "originals" directory executable. Remember that while the "originals"
+   directory is executable these files are accessible to anyone through their
+   web browser, it's unlikely they will be trying to access them when you are 
+   but if you want to prevent others from accessing them during this time then 
+   shutdown Apache or NGINX. You can make the "originals" directory executable 
+   with the following command...
+
+     a) sudo chmod +x images/originals/
+
+   When you're done accessing the image files in the "originals" directory 
+   remember to remove the executable permission with the following command...
+
+     b) sudo chmod -x images/originals/
+
+2) If you are using shared hosting you must make the "originals" directory 
+   user executable using your web hosting control panel. For example, in cPanel 
+   you can use "File Manager" to make the directory executable. You can then 
+   access your image files with an FTP client. While it may not be the same
+   across all shared hosting, in my experience it is the group permission that 
+   is used by the web server to access your files, therefore if you set the user
+   executable on the "originals" directory (but not the group) you will be able 
+   to access your files with FTP while visitors to your website will not.
+
+BACKUP - DEDICATED or VPS HOSTING
+
+1) If you want to backup the entire gallery follow these steps...
+
+  a) Backup the database with phpmyadmin or on the command line...
+     
+     i) sudo mysqldump -u username -p jig > jig.sql
+
+     ii) Copy the jig.sql file into the jig directory (or copy it to your
+         web root if you are running JIG in the your web root)
+
+  b) Create a tarball of your gallery...
+
+     i) sudo tar -zcfpv jig.tar.gz jig/
+
+  c) To restore the gallery extract the tarball and import the jig.sql file
+     into MySQL...
+
+     i) sudo tar -zxvfp jig.tar.gz
+
+     ii) sudo mysql -u username -p jig < jig.sql 
+
+     iii) Set permissions with these commands
+
+          sudo chown -R www-data images/gallery/
+          sudo chown -R www-data images/thumbnails/
+          sudo chown -R www-data images/watermark/
+          sudo chown -R www-data images/originals/
+          sudo chmod 664 images/originals/
+
+BACKUP - SHARED HOSTING
+
+1) If you want to backup the entire gallery follow these steps...
+
+  a) You will first have to make the "originals" directory executable then
+     you can download the entire website.
+
+  b) Use phpMyAdmin to backup the database.
+
+  c) To restore the gallery upload all files to your host. Remember to
+     prevent visitors from accessing the "originals" directory by removing
+     executable permission on the "originals" directory using your hosts
+     web hosting control panel (eg: cPanel).
+
+MEMBER ACCOUNTS
+
+Anonymous users cannot sign up as members. The Administrator must create a 
+member account for a user. All member passwords are encrypted (hashed) before
+being stored in the database. Logging out on one device will log you out on
+all devices. Users are allotted 5 login attempts after which they will be 
+blocked from logging in again for 1 hour.
+
+COMMENTS
+
+If comments are disabled then no one can leave a comment and any comments left 
+previously will no longer be displayed. 
+
+If comments are enabled for members then only members can leave comments but
+everyone can see them (unless the photo is private). Any comment left by a 
+member will go live immediately.  
+
+If anyone (members or anonymous) are allowed to leave a comment then the 
+comments will also be visible to everyone. Any comment left by an anonymous
+user must first be approved in the administration section before it goes live. 
+When you log into the Administration panel a little yellow star will appear on
+the comments tab if there is a comment that needs to be approved. There is an 
+option to be notified by email when a comment requires moderation, you must 
+have a working MTA (such as Sendmail or Postfix) to use this feature. The
+anonymous comment notification email will be sent the Administrator's email
+address.
+
+Any comment can be deleted by the Administrator in the comment section of a 
+given image.
+
+Members can delete their own comments from the account page.
+
+CONTACT FORM
+
+This feature requires a working MTA. Emails will be sent to the Administrator's
+email address.
+
+GOOGLE RECAPTCHA
+
+The Google reCAPTCHA option, if enabled, serves two purposes. First, if you
+allow anyone (anonymous users) to leave comments for your images, it will help 
+prevent bots from filling up the comment queue in the Administration section 
+with spam. Second, if you enable the contact form, it will prevent bots from 
+filling out the contact form and filling your email inbox with spam. To enable
+Google reCAPTCHA you will need to create a Google account, then get your 
+secretkey and sitekey (v2 Checkbox) from the Google reCAPTCHA website: 
+
+  https://www.google.com/recaptcha/
+
+PUBLIC/PRIVATE ALBUMS AND IMAGES
+
+You can make each individual album or image private so anonymous users will not
+be able to see them or access them when they visit your website. Album privacy
+is not recursive though. If an anonymous user enters the URL of a private album 
+they would not be able to see what is inside it, similarly if an anonymous user
+enters the URL of a private image they would not be able to see the image, 
+however in the unlikely event they where to guess the URL of a sub-album within 
+that album they could see what is inside of that sub-album, similarly if they 
+where to guess the URL of a image inside a private album that hasn't been marked
+private itself they could see that image. If you want all images and sub-albums 
+inside a given album to be private you have to make them private as well. 
+Privacy only applies to Anonymous users, the Administrator and all members can 
+always see private albums and images.
+
+IMAGE DESCRIPTION
+
+If you click on an image while in the Administration panel you will be given the
+option of entering a description for the image. The description will be 
+displayed directly under the image in the gallery. If a description is contained
+in the EXIF data of a JPEG image it will be displayed here upon upload.
+
+IMAGE INFORMATION
+
+If you are uploading JPEG photos from your camera some of the EXIF data 
+contained within the JPEG will be extracted and displayed automatically, if you 
+want to hide any of that data click on the photo in the Administration panel and
+uncheck the information you don't want displayed. If no EXIF data is available 
+for a given image it will say "Unavailable" and will not be displayed in the 
+gallery. If the EXIF data includes GPS data, then by default GPS coordinates 
+will be displayed and a link to Google Maps will be included. If you want to 
+hide the GPS information so visitors don't know where you took the photo just 
+uncheck the GPS option for each image. If you don't want to display any image 
+information in your gallery then disable the feature in the "General" tab of the
+Administration panel.
+
+WATERMARKS
+
+JIG supports both text based and image based watermarks. You can setup your
+watermarks in the administration panel, once you do that they will be applied to
+your images when you upload your images to the gallery. All watermarks are 
+permanent and cannot be removed once applied (unless you're a Photoshop wiz). 
+Text based watermarks are limited to 30 characters. Watermarks will be applied 
+to both the image and the thumbnail. Watermarks are not applied to videos.
+
+VIDEO
+
+JIG supports uploading video formats MP4, WEBM and OGG to your gallery.
+
+PERFORMANCE
+
+Uploading numerous images with large files sizes can take time, especially if
+your server or ISP has a slow connection. Watermarks increase processing time as
+well. In both cases be patient when uploading photos and other images, 
+especially if you are uploading a whole bunch all at once. If your browsers 
+loading animation stops animating the process has timed out and nothing will be 
+uploaded, you'll have to reload the page and try again. This usually isn't a 
+problem but if you upload many large images or if they are all being 
+watermarked a timeout could occur and as a result nothing will be uploaded. 
+
+A VPN can slow things down considerably and are much more likely to cause a 
+timeout. If you experience a timeout there are a few things you can try: 
+	
+	1) Upload fewer images simultaneously or even just one image at a time 
+	2) Try connecting to a closer, faster VPN server
+	3) Try disconnecting from your VPN while uploading images
+
+Some users of this script may be using it on a VPS with 512 or 1024 MB of RAM. 
+You may find this is not enough, if you run into problems uploading images 
+please add a SWAP file/partition to your VPS of at least 1024 MB.
+
+THEMES
+
+JIG comes with 5 themes in addition to the Default theme but you can create your
+own. I designed the theme system to be easy to use and to make it easy to share
+your themes. If you want to create a theme start by customizing the Default 
+theme to meet your tastes, then give it a name and download it. Next reset the 
+theme you just modified. Finally upload the new theme and you will now be able
+to select the theme for use in your image gallery. You can share theme files on
+the Internet so hopefully you will find a color scheme that is pleasing to your
+eyes. If you create a new theme and want to share it with the community you can
+email it to me.
+
+LANGUAGES
+
+By default JIG runs in English, but I have included Google translated
+French and Spanish language files (so please forgive any mistranslation). You
+can change the language by selecting the "General" tab in the administration
+panel. It's easy to add a new language. If you want to use a different language
+take the english.php language file and translate all entries to whatever 
+language you want to use then rename the file, so for example if you translate
+everything into German rename the file deutsche.php and then upload it to the
+language directory, it will automatically be available as a language option in
+the "General" tab. If you do create a language file be careful, some of the 
+translations include variables (beginning with $) and HTML code and they must
+remain in the translation. If you create a language file and want to share it 
+with the community you can email it to me.
+
+MOBILE
+
+JIG works best on your mobile device if you hold your device in landscape
+mode (lengthwise, remember to enable rotation on your device) otherwise your
+experience may be subpar as the text may be too small or you'll have to zoom 
+in/out and scroll left/right.
+
+CREDIT WHERE CREDIT IS DUE
+
+JIG wouldn't work without some help. The following 4 components are bundled 
+with JIG. They are licensed under the MIT, MIT, OFL and LGPL licenses 
+respectively. 
+
+1) RECAPTCHALIB
+
+The recaptchalib.php file is a PHP library that handles calling reCAPTCHA. It 
+has been distributed by Google and is licensed under the MIT license. See the 
+top of the recaptchalib.php file for more information. I did not modify it.
+
+2) JQUERY 3.5.1
+
+The jquery351.js file is distributed by the OpenJS Foundation and is licensed 
+under the MIT license. See the MIT file for more details. I did not modify it.
+
+3) INCONSOLATA FONT
+
+The Inconsolata font included with this project was created by Raph Levien and
+is licensed under the SIL OFL 1.1, see the OFL file for further details. This 
+is the font used for text based watermarks. I did not modify it.
+
+4) ICONS
+
+All the icons used in this project are part of the Crystal set of icons and 
+where created by Everaldo Coelho. They are licensed under the LGPL 2.1, or 
+(at your option) any later version. See the LGPL file for further details. 
+Some of these icons have been modified.
+
+LICENSE
+
+Jay's Image Gallery (JIG) - A simple image gallery for your website.
+
+Copyright (C) 2021  Jason Carson
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
