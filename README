@@ -54,7 +54,7 @@ I have tested JIG on Ubuntu 18.04/20.04 LTS Server Edition and all instructions
 apply to Ubuntu. If you are using a different distribution please note that JIG 
 has the following minimum requirements...
 
-   - PHP 7.4 (with gd, fileinfo, mbstring and exec support enabled)
+   - PHP 7.2 or 7.4 (with gd, fileinfo, mbstring and exec support enabled)
    - libgd 2.2.5
 
 NOTE: If you are running another distribution and JIG doesn't work or you are 
