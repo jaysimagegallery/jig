@@ -12,7 +12,7 @@ $sql0 = "SELECT username FROM members LIMIT 1";
 	$row0 = mysqli_fetch_row($result0);
 	$adminusername =  $row0[0];
 
-$stmt1 = $dbconnect -> prepare("SELECT password FROM members WHERE username = '$adminusername'");
+$stmt1 = $dbconnect -> prepare("SELECT password FROM members WHERE username = ?");
 $stmt1 -> bind_param('s', $adminusername);
 $stmt1 -> execute();
 $stmt1 -> store_result();
@@ -1422,6 +1422,8 @@ echo "<br></div>";
 
 // GPS
 
+if ($latdeg != "") {
+
 $latdegsplit = explode('/', $latdeg);
 $latdegfinal = $latdegsplit[0] / $latdegsplit[1];
 
@@ -1444,7 +1446,7 @@ $lonsecfinal = $lonsecsplit[0] / $lonsecsplit[1];
 $gpslat = $latsign * ($latdegfinal + ($latminfinal / 60) + ($latsecfinal / 3600));
 $gpslon = $lonsign * ($londegfinal + ($lonminfinal / 60) + ($lonsecfinal / 3600));
 
-
+}
 if (is_nan($gpslat) || is_nan($gpslon)) {
 
     $gpslat = "";
@@ -1551,7 +1553,7 @@ $update = $_GET["post"];
  $page = $_GET['page'];
 
 //Only administration or members can leave comments
-	if ($enablecomments == yesmembers) {
+	if ($enablecomments == "yesmembers") {
 
 	if  (isset($_SESSION['musername']) || $_SESSION['musername'] == "$adminusername") {
 
@@ -1816,7 +1818,7 @@ if ($_SESSION['musername'] != "") {
 
 		$convertdate = date("l F jS, Y", strtotime($commentdate));
 
-	$sql7 = "SELECT photo,mimetype FROM members WHERE username = '$username '";
+	$sql7 = "SELECT photo,mimetype FROM members WHERE username = '$username'";
 		$result7 = mysqli_query($dbconnect, $sql7);
 		$row7 = mysqli_fetch_row($result7);
 		$photo = base64_encode($row7[0]);
