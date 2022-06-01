@@ -51,7 +51,7 @@ if  ($_SESSION['ausername'] == $adminusername && $_SESSION['apassword'] == $admi
 	<div class="iaswrapper">
 		<span class="boxhead"><?php echo $sysinfo ?></span>
 <br>
-		<div class="sys1"><br><?php echo $distribution; ?>: <?php $distro = exec("cat /etc/os-release | sed -n '1 p' | cut -c 7-"); echo mb_substr($distro, 0, -1); echo " "; $release = exec("cat /etc/os-release | sed -n '2 p' | cut -c 10-");  echo mb_substr($release, 0, -1); if ($distro == "" || $release == "") { echo $unknown; } ?></div> 
+		<div class="sys1"><br><?php echo $distribution; ?>: <?php $distro = exec("cat /etc/os-release | sed -n '2 p' | cut -c 7-"); echo mb_substr($distro, 0, -1); echo " "; $release = exec("cat /etc/os-release | sed -n '4 p' | cut -c 10-");  echo mb_substr($release, 0, -1); if ($distro == "" || $release == "") { echo $unknown; } ?></div> 
 		<div class="sys2"><br><?php echo $hostname; ?>: <?php $yourhostname = exec ("hostname -f"); if ($yourhostname == "") { echo $unknown; } else { echo $yourhostname;  } ?></div>
 		<div class="sys1"><br><?php echo $kernel; ?>: <?php $yourkernel = php_uname('r'); if ($yourkernel == "") { echo $unknown; } else { echo $yourkernel; } ?></div>
 		<div class="sys2"><br><?php echo $uptime; ?>: <?php $sysut = system("uptime -p | sed 's/up //g'"); if ($sysut == "") { echo $unknown; } ?></div>	
