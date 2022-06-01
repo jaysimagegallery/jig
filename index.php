@@ -46,7 +46,7 @@ $sqlb = "SELECT username,cookieid FROM members LIMIT 1";
 	$adminusername =  $rowb[0];
 	$admincookieid = $rowb[1];
 
-$stmt1 = $dbconnect -> prepare("SELECT password FROM members WHERE username = '$adminusername'");
+$stmt1 = $dbconnect -> prepare("SELECT password FROM members WHERE username = ?");
 $stmt1 -> bind_param('s', $adminusername);
 $stmt1 -> execute();
 $stmt1 -> store_result();
@@ -232,7 +232,7 @@ if  ($_SESSION['ausername'] == $adminusername && $_SESSION['apassword'] == $admi
 $mpassword = htmlspecialchars(strip_tags($_POST['password']));
 $login = $_POST['login'];
 
-$stmt = $dbconnect -> prepare("SELECT password FROM members WHERE username = '$musername'");
+$stmt = $dbconnect -> prepare("SELECT password FROM members WHERE username = ?");
 $stmt -> bind_param('s', $musername);
 $stmt -> execute();
 $stmt -> store_result();
