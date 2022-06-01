@@ -35,9 +35,7 @@ $_SESSION['postername'] =  $postername;
 			$sitekey = $row[1];
 			$secretkey = $row[2];
 
-if ($secretkey == "" || $sitekey == "") {
-		header('Location: index.php?album='.$album.'&ain='.$ain.'&pin='.$pin.'&page='.$page.'&post=recaptcha#post');
-	}
+
 
 
 if ($enablerecaptcha == "yes") {
@@ -70,9 +68,10 @@ if ($response == null && isset($submit)) {
 } elseif ($response != null && $response->success) {
 
 		if ($username == "Anonymous") {
-
-		$stmt = $dbconnect->prepare("INSERT INTO comments (username, name, comment, pin, live, photodir, commentdate) VALUES ('$username', '$postername', '$comment', '$pin', 'no', '$photodir', CURRENT_TIMESTAMP)");
-		$stmt->bind_param("sssisss", $username, $name, $comment, $pin, $no, $photodir, $commentdate);
+$no = "no";
+		$commentdate = date('Y-m-d H:i:s');
+		$stmt = $dbconnect->prepare("INSERT INTO comments (username, name, comment, pin, live, photodir, commentdate) VALUES (?, ?, ?, ?, ?, ?, ?)");
+		$stmt->bind_param("sssisss", $username, $postername, $comment, $pin, $no, $photodir, $commentdate);
 		$stmt->execute();
 
 		$sql1 = "SELECT notifyanon FROM general";
@@ -111,9 +110,10 @@ if ($response == null && isset($submit)) {
 		header('Location: index.php?album='.$album.'&ain='.$ain.'&pin='.$pin.'&page='.$page.'&post=moderation#post');
 
 } else {
-
-		$stmt = $dbconnect->prepare("INSERT INTO comments (username, name, comment, pin, live, photodir, commentdate) VALUES ('$username', '$postername', '$comment', '$pin', 'yes', '$photodir', CURRENT_TIMESTAMP)");
-		$stmt->bind_param("sssisss", $username, $name, $comment, $pin, $yes, $photodir, $commentdate);
+$yes = "yes";
+		$commentdate = date('Y-m-d H:i:s');
+		$stmt = $dbconnect->prepare("INSERT INTO comments (username, name, comment, pin, live, photodir, commentdate) VALUES (?, ?, ?, ?, ?, ?, ?)");
+		$stmt->bind_param("sssisss", $username, $postername, $comment, $pin, $yes, $photodir, $commentdate);
 		$stmt->execute();
 
 
@@ -145,9 +145,10 @@ if ($response == null && isset($submit)) {
 } else {
 
 		if ($username == "Anonymous") {
-
-		$stmt = $dbconnect->prepare("INSERT INTO comments (username, name, comment, pin, live, photodir, commentdate) VALUES ('$username', '$postername', '$comment', '$pin', 'no', '$photodir', CURRENT_TIMESTAMP)");
-		$stmt->bind_param("sssisss", $username, $name, $comment, $pin, $no, $photodir, $commentdate);
+$no = "no";
+		$commentdate = date('Y-m-d H:i:s');
+		$stmt = $dbconnect->prepare("INSERT INTO comments (username, name, comment, pin, live, photodir, commentdate) VALUES (?, ?, ?, ?, ?, ?, ?)");
+		$stmt->bind_param("sssisss", $username, $postername, $comment, $pin, $no, $photodir, $commentdate);
 		$stmt->execute();
 
 		$sql1 = "SELECT notifyanon FROM general";
@@ -185,9 +186,10 @@ if ($response == null && isset($submit)) {
 		header('Location: index.php?album='.$album.'&ain='.$ain.'&pin='.$pin.'&page='.$page.'&post=moderation#post');
 
 } else {
-
-		$stmt = $dbconnect->prepare("INSERT INTO comments (username, name, comment, pin, live, photodir, commentdate) VALUES ('$username', '$postername', '$comment', '$pin', 'yes', '$photodir', CURRENT_TIMESTAMP)");
-		$stmt->bind_param("sssisss", $username, $name, $comment, $pin, $yes, $photodir, $commentdate);
+		$yes = "yes";
+		$commentdate = date('Y-m-d H:i:s');
+		$stmt = $dbconnect->prepare("INSERT INTO comments (username, name, comment, pin, live, photodir, commentdate) VALUES (?, ?, ?, ?, ?, ?, ?)");
+		$stmt->bind_param("sssisss", $username, $postername, $comment, $pin, $yes, $photodir, $commentdate);
 		$stmt->execute();
 
 		$sql = "SELECT COUNT(*) FROM comments WHERE pin = '$pin'";
