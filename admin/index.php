@@ -7,7 +7,7 @@ $sqlb = "SELECT username FROM members LIMIT 1";
 	$rowb = mysqli_fetch_row($resultb);
 	$adminusername =  $rowb[0];
 
-$stmt1 = $dbconnect -> prepare("SELECT password FROM members WHERE username = '$adminusername'");
+$stmt1 = $dbconnect -> prepare("SELECT password FROM members WHERE username = ?");
 $stmt1 -> bind_param('s', $adminusername);
 $stmt1 -> execute();
 $stmt1 -> store_result();
