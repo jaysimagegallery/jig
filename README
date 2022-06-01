@@ -94,7 +94,7 @@ NOTE: Image files are not stored in the database.
   a) Server name. Default: localhost
   b) Enter your database username
   c) Enter your database password
-  d) Database name. Default: jigupdate file github
+  d) Database name. Default: jig
 
 3) Either upload the jig folder to your server or upload its contents if 
    you want to run it in your web root. 
@@ -256,7 +256,7 @@ BACKUP - DEDICATED or VPS HOSTING
   c) To restore the gallery extract the tarball and import the jig.sql file
      into MySQL...
 
-     i) sudo tar -zxvpf jig.tar.gz
+     i) sudo tar -zxvfp jig.tar.gz
 
      ii) sudo mysql -u username -p jig < jig.sql 
 
