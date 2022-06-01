@@ -8,7 +8,7 @@ $sql1 = "SELECT username FROM members LIMIT 1";
 	$row1 = mysqli_fetch_row($result1);
 	$adminusername =  $row1[0];
 
-$stmt1 = $dbconnect -> prepare("SELECT password FROM members WHERE username = '$adminusername'");
+$stmt1 = $dbconnect -> prepare("SELECT password FROM members WHERE username = ?");
 $stmt1 -> bind_param('s', $adminusername);
 $stmt1 -> execute();
 $stmt1 -> store_result();
@@ -46,7 +46,7 @@ if  ($_SESSION['ausername'] == $adminusername && $_SESSION['apassword'] == $admi
 	$notifyanon = $_POST['notifyanon'];
 
 if ($tiupdate == "add") {
-$stmt = $dbconnect->prepare("UPDATE general SET title='$title'");
+$stmt = $dbconnect->prepare("UPDATE general SET title = ?");
 		$stmt->bind_param("s", $title);
 		$stmt->execute();
 header('Location: index.php?menu=general&update=successfully');
@@ -59,7 +59,7 @@ header('Location: index.php?menu=general&update=successfully');
 }
 
 if ($subupdate == "add") {
-$stmt2 = $dbconnect->prepare("UPDATE general SET subtitle='$subtitle'");
+$stmt2 = $dbconnect->prepare("UPDATE general SET subtitle = ?");
 		$stmt2->bind_param("s", $subtitle);
 		$stmt2->execute();
 header('Location: index.php?menu=general&update=successfully');
@@ -78,14 +78,14 @@ header('Location: index.php?menu=general&update=successfully');
 }
 
 if (isset($numpage)) {
-$stmt4 = $dbconnect->prepare("UPDATE general SET numpage='$numpage'");
+$stmt4 = $dbconnect->prepare("UPDATE general SET numpage = ?");
 		$stmt4->bind_param("i", $numpage);
 		$stmt4->execute();
 header('Location: index.php?menu=general&update=successfully');
 }
 
 if (isset($picpage)) {
-$stmt5 = $dbconnect->prepare("UPDATE general SET picpage='$picpage'");
+$stmt5 = $dbconnect->prepare("UPDATE general SET picpage = ?");
 		$stmt5->bind_param("i", $picpage);
 		$stmt5->execute();
 header('Location: index.php?menu=general&update=successfully');
@@ -122,7 +122,7 @@ header('Location: index.php?menu=general&update=successfully');
 }
 
 if ($wmupdate == "add") {
-$stmt11 = $dbconnect->prepare("UPDATE general SET textwatermark='$textwatermark'");
+$stmt11 = $dbconnect->prepare("UPDATE general SET textwatermark = ?");
 		$stmt11->bind_param("s", $textwatermark);
 		$stmt11->execute();
 header('Location: index.php?menu=general&update=successfully');
@@ -147,7 +147,7 @@ header('Location: index.php?menu=general&update=successfully');
 }
 
 if ($siupdate == "add") {
-$stmt14 = $dbconnect->prepare("UPDATE general SET sitekey='$sitekey'");
+$stmt14 = $dbconnect->prepare("UPDATE general SET sitekey = ?");
 		$stmt14->bind_param("s", $sitekey);
 		$stmt14->execute();
 header('Location: index.php?menu=general&update=successfully');
@@ -160,7 +160,7 @@ header('Location: index.php?menu=general&update=successfully');
 }
 
 if ($secupdate == "add") {
-$stmt15 = $dbconnect->prepare("UPDATE general SET secretkey='$secretkey'");
+$stmt15 = $dbconnect->prepare("UPDATE general SET secretkey = ?");
 		$stmt15->bind_param("s", $secretkey);
 		$stmt15->execute();
 header('Location: index.php?menu=general&update=successfully');
@@ -188,8 +188,8 @@ if (exif_imagetype($tempname) == IMAGETYPE_GIF || exif_imagetype($tempname) == I
 	move_uploaded_file($tempname, "../images/watermark/$name");
 
 
-	$stmt15 = $dbconnect->prepare("UPDATE general SET imagewatermark='$name'");
-		$stmt15->bind_param("s", $$imagewatermark);
+	$stmt15 = $dbconnect->prepare("UPDATE general SET imagewatermark = ?");
+		$stmt15->bind_param("s", $name);
 		$stmt15->execute();
 
 		header('Location: index.php?menu=general&update=successfully');
