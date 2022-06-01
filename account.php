@@ -15,7 +15,7 @@ $sql0 = "SELECT username FROM members LIMIT 1";
 	$row0 = mysqli_fetch_row($result0);
 	$adminusername =  $row0[0];
 
-$stmt1 = $dbconnect -> prepare("SELECT password FROM members WHERE username = '$adminusername'");
+$stmt1 = $dbconnect -> prepare("SELECT password FROM members WHERE username = ?");
 $stmt1 -> bind_param('s', $adminusername);
 $stmt1 -> execute();
 $stmt1 -> store_result();
@@ -92,7 +92,7 @@ if  (isset($_SESSION['musername']) || isset($_SESSION['ausername'])) {
 
 		echo "<div class=\"fade\">";
 
-		$sql = "SELECT username,first,last,email,photoname,photo FROM members WHERE username = '$musername '";
+		$sql = "SELECT username,first,last,email,photoname,photo FROM members WHERE username = '$musername'";
 		$result = mysqli_query($dbconnect, $sql);
 		$row = mysqli_fetch_row($result);
 			$username = $row[0];
@@ -101,9 +101,8 @@ if  (isset($_SESSION['musername']) || isset($_SESSION['ausername'])) {
 			$email = $row[3];
 			$photoname = $row[4];
 			$photo = base64_encode($row[5]);
-
-		$mimetype = mime_content_type($photo);
-
+		
+$mimetype = mime_content_type($photo);
 		if ($photo != "") {
 			
 			echo "<div class=\"profilephotodiv\"><img src=\"data:$mimetype;charset=utf8;base64,$photo\" class=\"profilephoto\"></div>";
@@ -224,7 +223,7 @@ echo "</legend>";
 
 		$convertdate = date("l F jS, Y", strtotime($commentdate));
 
-		$sql7 = "SELECT photo,mimetype FROM members WHERE username = '$username '";
+		$sql7 = "SELECT photo,mimetype FROM members WHERE username = '$username'";
 		$result7 = mysqli_query($dbconnect, $sql7);
 		$row7 = mysqli_fetch_row($result7);
 		$photo = base64_encode($row7[0]);
@@ -631,7 +630,7 @@ if (($_SESSION['ausername'] != $adminusername || $_SESSION['apassword'] != $admi
 		$hash3 = password_hash($newpassword, PASSWORD_DEFAULT);
 
 
-			$stmt3 = $dbconnect->prepare("UPDATE members SET password = '$hash3' WHERE username = '$adminusername'");
+			$stmt3 = $dbconnect->prepare("UPDATE members SET password = '$hash3' WHERE username = ?");
 			$stmt3->bind_param("ss", $$hash3);
 			$stmt3->execute();
 		
