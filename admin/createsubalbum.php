@@ -8,7 +8,7 @@ $sql1 = "SELECT username FROM members LIMIT 1";
 	$row1 = mysqli_fetch_row($result1);
 	$adminusername =  $row1[0];
 
-$stmt1 = $dbconnect -> prepare("SELECT password FROM members WHERE username = '$adminusername'");
+$stmt1 = $dbconnect -> prepare("SELECT password FROM members WHERE username = ?");
 $stmt1 -> bind_param('s', $adminusername);
 $stmt1 -> execute();
 $stmt1 -> store_result();
@@ -46,9 +46,11 @@ if  ($_SESSION['ausername'] == $adminusername && $_SESSION['apassword'] == $admi
 	$number =  $row2[0];
 
 	$displayorder = $number + 1;	
+	$status = "public";
+	$albumdir2 = "$albumdir/$album";
 
-	$stmt = $dbconnect->prepare("INSERT INTO albums (album, pain, parentalbum, albumdir, displayorder, status) VALUES ('$album', '$pain', '$parentalbum', '$albumdir/$album', '$displayorder', 'public')");
-		$stmt->bind_param("sissis", $album, $pain, $parentalbum, $albumdir, $displayorder, $status);
+	$stmt = $dbconnect->prepare("INSERT INTO albums (album, pain, parentalbum, albumdir, displayorder, status) VALUES (?, ?, ?, ?,?,?)");
+		$stmt->bind_param("sissis", $album, $pain, $parentalbum, $albumdir2, $displayorder, $status);
 		$stmt->execute();
 
 
