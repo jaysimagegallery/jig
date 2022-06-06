@@ -92,7 +92,7 @@ if  (isset($_SESSION['musername']) || isset($_SESSION['ausername'])) {
 
 		echo "<div class=\"fade\">";
 
-		$sql = "SELECT username,first,last,email,photoname,photo FROM members WHERE username = '$musername'";
+		$sql = "SELECT username,first,last,email,photoname,photo,mimetype FROM members WHERE username = '$musername'";
 		$result = mysqli_query($dbconnect, $sql);
 		$row = mysqli_fetch_row($result);
 			$username = $row[0];
@@ -101,10 +101,9 @@ if  (isset($_SESSION['musername']) || isset($_SESSION['ausername'])) {
 			$email = $row[3];
 			$photoname = $row[4];
 			$photo = base64_encode($row[5]);
-		
-$mimetype = mime_content_type($photo);
-		if ($photo != "") {
-			
+			$mimetype = $row[6];
+
+		if ($photo != "") {			
 			echo "<div class=\"profilephotodiv\"><img src=\"data:$mimetype;charset=utf8;base64,$photo\" class=\"profilephoto\"></div>";
 		} 
 
