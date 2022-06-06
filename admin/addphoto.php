@@ -8,7 +8,7 @@ $sql1 = "SELECT username FROM members LIMIT 1";
     $row1 = mysqli_fetch_row($result1);
     $adminusername =  $row1[0];
 
-$stmt1 = $dbconnect -> prepare("SELECT password FROM members WHERE username = '$adminusername'");
+$stmt1 = $dbconnect -> prepare("SELECT password FROM members WHERE username = ?");
 $stmt1 -> bind_param('s', $adminusername);
 $stmt1 -> execute();
 $stmt1 -> store_result();
@@ -1608,7 +1608,250 @@ if (!isset($exposureprogram)) {
 
     $public = "public";
     
-    $stmt = $dbconnect->prepare("INSERT INTO photos (name, ain, photodir, displayorder, status, photodate, cameramake, cameramodel, orientation, iscolor, xres, yres, resolutionunit, focusdistance, focallength, software, apfnumber, apvalue, shutterspeed, brightnessvalue, sharpness, colorspace, interoperabilityindex, interoperabilityversion, scenecapturetype, exposuretime, flash, saturation, whitebalance, subjectdistance, isospeedratings, contrast, fl35mm, metering, exifver, subsectime, subsectimeoriginal, subsectimedigitized, flashpixversion, imageuniqueid, latdeg, latmin, latsec, gpslatref, latsign, londeg, lonmin, lonsec, gpslonref, lonsign ,gpsaltitude, altref, componentsconfiguration, ycbcrpositioning, scenetype, exposurebiasvalue, exposuremode, lightsource, filesource, digitalzoomratio, customrendered, compressedbitsperpixel, maxaperturevalue, exposureprogram, description, enablegps, showphotodate, showcameramake, showcameramodel, showorientation, showiscolor, showxres, showyres, showresolutionunit, showfocusdistance, showfocallength, showsoftware, showaperturefnumber, showaperturevalue, showshutterspeed, showbrightnessvalue, showsharpness, showcolorspace, showscenecapturetype, showexposuretime, showflash, showsaturation, showwhitebalance, showinteroperabilityindex, showinteroperabilityversion, showsubjectdistance, showisospeedratings, showcontrast, showfl35mm, showmetering, showexifver, showsubsectime, showsubsectimeoriginal, showsubsectimedigitized, showflashpixversion, showimageuniqueid, showgpsaltitude, showname, showmimetype, showdimensions, showsize, showcomponentsconfiguration, showycbcrpositioning, showscenetype, showexposurebiasvalue, showexposuremode, showlightsource, showfilesource, showdigitalzoomratio, showcustomrendered, showcompressedbitsperpixel, showmaxaperturevalue, showexposureprogram) VALUES ('$value', '$ain', '$albumdir', '$displayorder', '$public', '$photodate', '$cameramake', '$cameramodel', '$orientation', '$iscolor', '$xres', '$yres', '$resolutionunit', '$focusdistance', '$focallength', '$software', '$aperturefnumber', '$aperturevalue', '$shutterspeed', '$brightnessvalue', '$sharpness', '$colorspace', '$interoperabilityindex', '$interoperabilityversion', '$scenecapturetype', '$exposuretime', '$flash', '$saturation', '$whitebalance', '$subjectdistance', '$isospeedratings', '$contrast', '$fl35mm', '$metering', '$exifver', '$subsectime', '$subsectimeoriginal', '$subsectimedigitized', '$flashpixversion', '$imageuniqueid', '$latdeg', '$latmin', '$latsec', '$gpslatref', '$latsign', '$londeg', '$lonmin', '$lonsec', '$gpslonref', '$lonsign', '$gpsaltitude', '$altref', '$componentsconfiguration', '$ycbcrpositioning', '$scenetype', '$exposurebiasvalue', '$exposuremode', '$lightsource', '$filesource', '$digitalzoomratio', '$customrendered', '$compressedbitsperpixel', '$maxaperturevalue', '$exposureprogram', '$description', '$enablegps', '$showphotodate', '$showcameramake', '$showcameramodel', '$showorientation', '$showiscolor', '$showxres', '$showyres', '$showresolutionunit', '$showfocusdistance', '$showfocallength', '$showsoftware', '$showaperturefnumber', '$showaperturevalue', '$showshutterspeed', '$showbrightnessvalue', '$showsharpness', '$showcolorspace', '$showscenecapturetype', '$showexposuretime', '$showflash', '$showsaturation', '$showwhitebalance', '$showinteroperabilityindex', '$showinteroperabilityversion', '$showsubjectdistance', '$showisospeedratings', '$showcontrast', '$showfl35mm', '$showmetering', '$showexifver', '$showsubsectime', '$showsubsectimeoriginal', '$showsubsectimedigitized', '$showflashpixversion', '$showimageuniqueid', '$showgpsaltitude', '$showname', '$showmimetype', '$showdimensions', '$showsize', '$showcomponentsconfiguration', '$showycbcrpositioning', '$showscenetype', '$showexposurebiasvalue', '$showexposuremode', '$showlightsource', '$showfilesource', '$showdigitalzoomratio', '$showcustomrendered', '$showcompressedbitsperpixel', '$showmaxaperturevalue', '$showexposureprogram')");
+    if ($photodate == "") {
+        $photodate = "";
+    }
+
+    if ($cameramake == "") {
+        $cameramake = "";
+    }
+
+    if ($cameramodel == "") {
+        $cameramodel = "";
+    }
+
+    if ($orientation == "") {
+        $orientation = "";
+    }
+
+    if ($iscolor == "") {
+        $iscolor = "";
+    }
+
+    if ($xres == "") {
+        $xres = "";
+    }
+
+    if ($yres == "") {
+        $yres = "";
+    }
+
+    if ($resolutionunit == "") {
+        $resolutionunit = "";
+    }
+
+    if ($focusdistance == "") {
+        $focusdistance = "";
+    }
+
+    if ($focallength == "") {
+        $focallength = "";
+    }
+
+    if ($software == "") {
+        $software = "";
+    }
+
+    if ($aperturefnumber == "") {
+        $aperturefnumber = "";
+    }
+
+    if ($aperturevalue == "") {
+        $aperturevalue = "";
+    }
+
+
+    if ($shutterspeed == "") {
+        $shutterspeed = "";
+    }
+
+if ($brightnessvalue == "") {
+        $brightnessvalue = "";
+    }
+
+if ($sharpness == "") {
+        $sharpness = "";
+    }
+
+if ($colorspace == "") {
+        $colorspace = "";
+    }
+
+if ($interoperabilityindex == "") {
+        $interoperabilityindex = "";
+    }
+
+if ($interoperabilityversion == "") {
+        $interoperabilityversion = "";
+    }
+
+if ($scenecapturetype == "") {
+        $scenecapturetype = "";
+    }
+
+    if ($exposuretime == "") {
+        $exposuretime = "";
+    }
+
+    if ($flash == "") {
+        $flash = "";
+    }
+
+    if ($saturation == "") {
+        $saturation = "";
+    }
+
+    if ($whitebalance == "") {
+        $whitebalance = "";
+    }
+
+    if ($subjectdistance == "") {
+        $subjectdistance = "";
+    }
+
+    if ($isospeedratings == "") {
+        $isospeedratings = "";
+    }
+
+    if ($contrast == "") {
+        $contrast = "";
+    }
+
+if ($fl35mm == "") {
+        $fl35mm = "";
+    }
+
+    if ($metering == "") {
+        $metering = "";
+    }
+
+if ($exifver == "") {
+        $exifver = "";
+    }
+
+    if ($subsectime == "") {
+        $subsectime = "";
+    }
+
+    if ($subsectimeoriginal == "") {
+        $subsectimeoriginal = "";
+    }
+
+    if ($subsectimedigitized == "") {
+        $subsectimedigitized = "";
+    }
+
+    if ($flashpixversion == "") {
+        $flashpixversion = "";
+    }
+
+     if ($imageuniqueid == "") {
+        $imageuniqueid = "";
+    }
+
+     if ($latdeg == "") {
+        $latdeg = "";
+    }
+
+     if ($latmin == "") {
+        $latmin = "";
+    }
+
+     if ($latsec == "") {
+        $latsec = "";
+    }
+
+     if ($gpslatref == "") {
+        $gpslatref = "";
+    }
+
+     if ($latsign == "") {
+        $latsign = "";
+    }
+
+     if ($londeg == "") {
+        $londeg = "";
+    }
+
+     if ($lonmin == "") {
+        $lonmin = "";
+    }
+
+     if ($lonsec == "") {
+        $lonsec = "";
+    }
+
+     if ($gpslonref == "") {
+        $gpslonref = "";
+    }
+
+    if ($lonsign == "") {
+        $lonsign = "";
+    }
+
+    if ($gpsaltitude == "") {
+        $gpsaltitude = "";
+    }
+
+    if ($altref == "") {
+        $altref = "";
+    }
+
+    if ($componentsconfiguration == "") {
+        $componentsconfiguration = "";
+    }
+
+    if ($ycbcrpositioning == "") {
+        $ycbcrpositioning = "";
+    }
+
+    if ($scenetype == "") {
+        $scenetype = "";
+    }
+
+    if ($exposurebiasvalue == "") {
+        $exposurebiasvalue = "";
+    }
+    if ($exposuremode == "") {
+        $exposuremode = "";
+    }
+    if ($lightsource == "") {
+        $lightsource = "";
+    }
+
+    if ($filesource == "") {
+        $filesource = "";
+    }
+
+    if ($digitalzoomratio == "") {
+        $digitalzoomratio = "";
+    }
+
+    if ($customrendered == "") {
+        $customrendered = "";
+    }
+
+    if ($compressedbitsperpixel == "") {
+        $compressedbitsperpixel = "";
+    }
+
+    if ($maxaperturevalue == "") {
+        $maxaperturevalue = "";
+    }
+
+    if ($exposureprogram == "") {
+        $exposureprogram = "";
+    }
+
+    if ($description == "") {
+        $description = "";
+    }
+
+    if ($enablegps == "") {
+        $enablegps = "";
+    }
+
+    $stmt = $dbconnect->prepare("INSERT INTO photos (name, ain, photodir, displayorder, status, photodate, cameramake, cameramodel, orientation, iscolor, xres, yres, resolutionunit, focusdistance, focallength, software, apfnumber, apvalue, shutterspeed, brightnessvalue, sharpness, colorspace, interoperabilityindex, interoperabilityversion, scenecapturetype, exposuretime, flash, saturation, whitebalance, subjectdistance, isospeedratings, contrast, fl35mm, metering, exifver, subsectime, subsectimeoriginal, subsectimedigitized, flashpixversion, imageuniqueid, latdeg, latmin, latsec, gpslatref, latsign, londeg, lonmin, lonsec, gpslonref, lonsign ,gpsaltitude, altref, componentsconfiguration, ycbcrpositioning, scenetype, exposurebiasvalue, exposuremode, lightsource, filesource, digitalzoomratio, customrendered, compressedbitsperpixel, maxaperturevalue, exposureprogram, description, enablegps, showphotodate, showcameramake, showcameramodel, showorientation, showiscolor, showxres, showyres, showresolutionunit, showfocusdistance, showfocallength, showsoftware, showaperturefnumber, showaperturevalue, showshutterspeed, showbrightnessvalue, showsharpness, showcolorspace, showscenecapturetype, showexposuretime, showflash, showsaturation, showwhitebalance, showinteroperabilityindex, showinteroperabilityversion, showsubjectdistance, showisospeedratings, showcontrast, showfl35mm, showmetering, showexifver, showsubsectime, showsubsectimeoriginal, showsubsectimedigitized, showflashpixversion, showimageuniqueid, showgpsaltitude, showname, showmimetype, showdimensions, showsize, showcomponentsconfiguration, showycbcrpositioning, showscenetype, showexposurebiasvalue, showexposuremode, showlightsource, showfilesource, showdigitalzoomratio, showcustomrendered, showcompressedbitsperpixel, showmaxaperturevalue, showexposureprogram) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("sissssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss", $value, $ain, $albumdir, $displayorder, $public, $photodate, $cameramake, $cameramodel, $orientation, $iscolor, $xres, $yres, $resolutionunit, $focusdistance, $focallength, $software, $aperturefnumber, $aperturevalue, $shutterspeed, $brightnessvalue, $sharpness, $colorspace, $interoperabilityindex, $interoperabilityversion, $scenecapturetype, $exposuretime, $flash, $saturation, $whitebalance, $subjectdistance, $isospeedratings, $contrast, $fl35mm, $metering, $exifver, $subsectime, $subsectimeoriginal, $subsectimedigitized, $flashpixversion, $imageuniqueid, $latdeg, $latmin, $latsec, $gpslatref, $latsign, $londeg, $lonmin, $lonsec, $gpslonref, $lonsign, $gpsaltitude, $altref, $componentsconfiguration, $ycbcrpositioning, $scenetype, $exposurebiasvalue, $exposuremode, $lightsource, $filesource, $digitalzoomratio, $customrendered, $compressedbitsperpixel, $maxaperturevalue, $exposureprogram, $description, $enablegps, $showphotodate, $showcameramake, $showcameramodel, $showorientation, $showiscolor, $showxres, $showyres, $showresolutionunit, $showfocusdistance, $showfocallength, $showsoftware, $showaperturefnumber, $showaperturevalue, $showshutterspeed, $showbrightnessvalue, $showsharpness, $showcolorspace, $showscenecapturetype, $showexposuretime, $showflash, $showsaturation, $showwhitebalance, $showinteroperabilityindex, $showinteroperabilityversion, $showsubjectdistance, $showisospeedratings, $showcontrast, $showfl35mm, $showmetering, $showexifver, $showsubsectime, $showsubsectimeoriginal, $showsubsectimedigitized, $showflashpixversion, $showimageuniqueid, $showgpsaltitude, $showname, $showmimetype, $showdimensions, $showsize, $showcomponentsconfiguration, $showycbcrpositioning, $showscenetype, $showexposurebiasvalue, $showexposuremode, $showlightsource, $showfilesource, $showdigitalzoomratio, $showcustomrendered, $showcompressedbitsperpixel, $showmaxaperturevalue, $showexposureprogram);
     $stmt->execute();
 
