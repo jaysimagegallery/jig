@@ -9,7 +9,7 @@ $sql1 = "SELECT username FROM members LIMIT 1";
 	$row1 = mysqli_fetch_row($result1);
 	$adminusername =  $row1[0];
 
-$stmt1 = $dbconnect -> prepare("SELECT password FROM members WHERE username = '$adminusername'");
+$stmt1 = $dbconnect -> prepare("SELECT password FROM members WHERE username = ?");
 $stmt1 -> bind_param('s', $adminusername);
 $stmt1 -> execute();
 $stmt1 -> store_result();
@@ -414,6 +414,9 @@ echo "<div class=\"column1\">";
 
 			echo "<input class=\"exifinfo\" type=\"checkbox\" name=\"showxres\" value=\"yes\" title=\"$endis\""; ?> <?php if ($showxres == "yes") { echo "checked"; } ?> <?php echo "\"> $xyres: ";
 
+			if ($xresolution == "" OR $yresolution == "") {
+
+			} else {
 
 		$xresolution = explode('/', $xres);
 		$thex = ($xresolution[0] / $xresolution[1]);
@@ -444,7 +447,7 @@ echo "<div class=\"column1\">";
 				}
 
 			} 
-
+}
 			 echo "</div>";
 
 //orientation
@@ -720,9 +723,13 @@ echo "<div class=\"column1\">";
 		echo "<div class=\"column1\">";
 				echo "<input class=\"exifinfo\" type=\"checkbox\" name=\"showfocallength\" value=\"yes\" title=\"$endis\""; ?> <?php if ($showfocallength == "yes") { echo "checked"; } ?> <?php echo "\"> $titleflength: ";
 
+				if ($focallength == "") {
+
+				} else {
+
 				$foclen = explode('/', $focallength);
 				$fc = ($foclen[0] / $foclen[1]);
-
+}
 
 			if ($focallength == "" || is_nan($fc)) { 
 				echo $unavailable; 
@@ -756,9 +763,13 @@ echo "<div class=\"column1\">";
 echo "<div class=\"column1\">";
 				echo "<input class=\"exifinfo\" type=\"checkbox\" name=\"showaperturevalue\" value=\"yes\" title=\"$endis\""; ?> <?php if ($showaperturevalue == "yes") { echo "checked"; } ?> <?php echo "\"> $titleaplength: ";
 
+				if ($av == "") {
+
+				} else {
+
 				$apval = explode('/', $apvalue);
 				$av = ($apval[0] / $apval[1]);
-
+}
 			if ($av == "" || is_nan($av)) { 
 				echo $unavailable; 
 			} else { 
@@ -787,8 +798,14 @@ echo "<div class=\"column1\">";
 			echo "<div class=\"column1\">";
 				echo "<input class=\"exifinfo\" type=\"checkbox\" name=\"showmaxaperturevalue\" value=\"yes\" title=\"$endis\""; ?> <?php if ($showmaxaperturevalue == "yes") { echo "checked"; } ?> <?php echo "\"> $titleman: ";
 
+				if ($ap == "") {
+
+				} else {
+
 			$maxap = explode('/', $maxaperturevalue);
 				$ap = ($maxap[0] / $maxap[1]);
+
+			}
 
 			if (is_nan($ap)) { 
 				echo $unavailable; 
@@ -905,9 +922,13 @@ echo "</div>";
 	
 
 echo "<div class=\"column1\">";
+
+			if ($brightnessvalue == "") {
+
+			} else {
 			$brival = explode('/', $brightnessvalue);
 			$bv = ($brival[0] / $brival[1]);
-
+}
 			$numerator = $brival[0];
 
 			echo "<input class=\"exifinfo\" type=\"checkbox\" name=\"showbrightnessvalue\" value=\"yes\" title=\"$endis\""; ?> <?php if ($showbrightnessvalue == "yes") { echo "checked"; } ?> <?php echo "\"> $titlebrightness: ";
@@ -1150,22 +1171,26 @@ echo "<div class=\"column1\">";
 	 echo "</div>";
 
 
-echo "<div class=\"column1\">";
-			echo "<input class=\"exifinfo\" type=\"checkbox\" name=\"showcompressedbitsperpixel\" value=\"yes\" title=\"$endis\""; ?> <?php if ($showcompressedbitsperpixel == "yes") { echo "checked"; } ?> <?php echo "\"> $titlecbps: ";
+//echo "<div class=\"column1\">";
+//			echo "<input class=\"exifinfo\" type=\"checkbox\" name=\"showcompressedbitsperpixel\" value=\"yes\" title=\"$endis\""; 
+	 ?> <?php 
+	 //if ($showcompressedbitsperpixel == "yes") { echo "checked"; } 
+	 ?> <?php 
+	 //echo "\"> $titlecbps//: ";
 
-			$cbpp = explode('/', $compressedbitsperpixel);
-				$cp = ($cbpp[0] / $cbpp[1]);
+	//		$cbpp = explode('/', $compressedbitsperpixel);
+	//			$cp = ($cbpp[0] / $cbpp[1]);
 
 
 
-				if (is_nan($cp) || $cp == "") {
+	//			if (is_nan($cp) || $cp == "") {
 
-				echo $unavailable; 
-			} else { 
-				echo $cp; 
-			} 
+	//			echo $unavailable; 
+	//		} else { 
+	//			echo $cp; 
+	//		} 
 
-	 echo "</div>";
+	 //echo "</div>";
 
 
 
@@ -1218,9 +1243,13 @@ echo "<div class=\"column1\">";
 			echo "<input class=\"exifinfo\" type=\"checkbox\" name=\"showsubjectdistance\" value=\"yes\" title=\"$endis\""; ?> <?php if ($showsubjectdistance == "yes") { echo "checked"; } ?> <?php echo "\"> $titlesd: ";
 
 
+				if ($subjectdistance == "") {
+
+				} else {
+
 				$subdis = explode('/', $subjectdistance);
 				$sd = ($subdis[0] / $subdis[1]);
-
+}
 				$numerator2 = $subdis[0];
 
 
@@ -1240,10 +1269,13 @@ echo "<div class=\"column1\">";
 	echo "<div class=\"column1\">";
 			echo "<input class=\"exifinfo\" type=\"checkbox\" name=\"showshutterspeed\" value=\"yes\" title=\"$endis\""; ?> <?php if ($showshutterspeed == "yes") { echo "checked"; } ?> <?php echo "\"> $titleshutter: ";
 
+			if ($shutterspeed == "") {
+
+				} else {
 
 			$shuspe = explode('/', $shutterspeed);
 				$spv = ($shuspe[0] / $shuspe[1]);
-
+			}
 				if (is_nan($spv) || $spv == "") {
 
 				echo $unavailable; 
@@ -1266,8 +1298,14 @@ echo "<br></div>";
 			 echo "<div class=\"column1\">";
 			echo "<input class=\"exifinfo\" type=\"checkbox\" name=\"showexposuretime\" value=\"yes\" title=\"$endis\""; ?> <?php if ($showexposuretime == "yes") { echo "checked"; } ?> <?php echo "\"> $titleet: ";
 
+			if ($exposuretime == "") {
+
+			} else {
+
 			$extime = explode('/', $exposuretime);
 		$et = ($extime[0] / $extime[1]);
+			}
+
 
 		if ($et == "" || is_nan($et) ) { 
 				echo $unavailable; 
@@ -1359,6 +1397,10 @@ echo "<br></div>";
 
 // GPS
 
+	if ($latdeg == "" || $latmin == "" || $latsec == "" || $londeg == "" || $lonmin == "" || $lonsec == "") {
+
+	} else {
+
 $latdegsplit = explode('/', $latdeg);
 $latdegfinal = $latdegsplit[0] / $latdegsplit[1];
 
@@ -1380,7 +1422,7 @@ $lonsecfinal = $lonsecsplit[0] / $lonsecsplit[1];
 
 $gpslat = $latsign * ($latdegfinal + ($latminfinal / 60) + ($latsecfinal / 3600));
 $gpslon = $lonsign * ($londegfinal + ($lonminfinal / 60) + ($lonsecfinal / 3600));
-
+}
 
 if (is_nan($gpslat) || is_nan($gpslon)) {
 
