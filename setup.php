@@ -64,8 +64,8 @@ if ($password === $password2) {
 
 $hash = password_hash($password, PASSWORD_DEFAULT);
 
-$stmt = $dbconnect->prepare("UPDATE members SET username='$username', email='$email', password='$hash' WHERE username='Administrator'");
-		$stmt->bind_param("s", $username, $email, $hash);
+$stmt = $dbconnect->prepare("UPDATE members SET username=?, email=?, password=? WHERE username='$username'");
+		$stmt->bind_param("sss", $username, $email, $hash);
 		$stmt->execute();
 
 mysqli_close($dbconnect);
