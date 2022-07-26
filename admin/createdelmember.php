@@ -8,7 +8,7 @@ $sql1 = "SELECT username FROM members LIMIT 1";
 	$row1 = mysqli_fetch_row($result1);
 	$adminusername =  $row1[0];
 
-$stmt1 = $dbconnect -> prepare("SELECT password FROM members WHERE username = '$adminusername'");
+$stmt1 = $dbconnect -> prepare("SELECT password FROM members WHERE username = ?");
 $stmt1 -> bind_param('s', $adminusername);
 $stmt1 -> execute();
 $stmt1 -> store_result();
@@ -52,9 +52,13 @@ if ($counting != 0){
 
 		$hash = password_hash($password, PASSWORD_DEFAULT);
 
+		$photo2 = " ";
+		$mimetype = " ";
+		$cookieid = " ";
 
-		$stmt = $dbconnect->prepare("INSERT INTO members (username, password, first, last, email, photoname, photo ,mimetype, cookieid) VALUES ('$username', '$hash', '$first', '$last', '$email', '', '', '', '')");
-		$stmt->bind_param("s,s,s,s,s", $username, $password, $first, $last, $email, $photo);
+
+		$stmt = $dbconnect->prepare("INSERT INTO members (username, password, first, last, email, photoname, photo ,mimetype, cookieid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		$stmt->bind_param("ssssssbss", $username, $password, $first, $last, $email, $photo, $photo2, $mimetype, $cookieid);
 		$stmt->execute();
 
     	header('Location: index.php?menu=members&created=success');
