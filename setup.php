@@ -135,7 +135,7 @@ echo "You have already setup JIG<br><br>";
 			<hr class="divider">
 			<br>
 			
-			<span class="copyright">&copy 2021 <?php $year = date('Y'); if ($year == "2021") { } else { echo " - "; echo date('Y'); } ?> <a href="mailto:jigscript@gmail.com">Jason Carson</a></span>
+			<span class="copyright">&copy 2021 <?php $year = date('Y'); if ($year == "2021") { } else { echo " - "; echo date('Y'); } ?> <a href="mailto:jaysimagegallery@gmail.com">Jason Carson</a></span>
 			<span class="product">Powered by <a target=\_blank\ href=https://github.com/jigscript/jig\>JIG</a></span>
 					</div>
 
